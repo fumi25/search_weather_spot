@@ -10,6 +10,8 @@ Ollama (ローカルLLM) と Open-Meteo API (無料・APIキー不要) を組み
 - [機能](#機能)
 - [必要環境](#必要環境)
 - [ディレクトリ構成](#ディレクトリ構成)
+- [環境変数](#環境変数)
+- [コマンド一覧](#コマンド一覧)
 - [セットアップ](#セットアップ)
 - [実行方法](#実行方法)
 - [設計思想](#設計思想)
@@ -47,6 +49,11 @@ search-weather-spot/
 ├── config.py        # 共有定数 (MODEL, TOOL_FUNCTIONS, SYSTEM_PROMPT)
 ├── tools.py         # ツール実装 (ジオコーディング・天気取得)
 ├── tool_schema.py   # Ollama用ツールJSONスキーマ定義
+├── tests/
+│   ├── test_tools.py       # tools.py ユニットテスト (14件)
+│   ├── test_main.py        # main.py ユニットテスト (20件)
+│   ├── test_config.py      # config.py ユニットテスト (8件)
+│   └── test_tool_schema.py # tool_schema.py ユニットテスト (10件)
 ├── pyproject.toml   # uvプロジェクト設定・依存関係
 ├── requirements.txt # パッケージ一覧 (参照用)
 └── CLAUDE.md        # AI向け作業指示
@@ -72,6 +79,32 @@ Ollamaの `chat()` に渡すツールJSONスキーマを定義している。関
 
 **`app.py`**  
 Streamlit GUIループ。`st.session_state` で会話履歴を管理する。ツール実行中は `st.status` で進捗をリアルタイム表示する。
+
+---
+
+<!-- AUTO-GENERATED from config.py -->
+## 環境変数
+
+| 変数名 | 必須 | デフォルト | 説明 |
+|--------|------|-----------|------|
+| `OLLAMA_MODEL` | No | `llama3.1` | 使用するOllamaモデル名。ツール呼び出し対応モデルを指定すること。 |
+
+<!-- END AUTO-GENERATED -->
+
+---
+
+<!-- AUTO-GENERATED from pyproject.toml -->
+## コマンド一覧
+
+| コマンド | 説明 |
+|---------|------|
+| `uv sync` | 依存パッケージをインストール |
+| `uv run python main.py` | CLIチャットを起動 |
+| `uv run streamlit run app.py` | Streamlit GUIを起動 |
+| `uv run pytest tests/` | テストを実行 |
+| `uv run pytest tests/ --cov=tools --cov=config --cov=main --cov=tool_schema --cov-report=term-missing` | カバレッジ付きでテストを実行 |
+
+<!-- END AUTO-GENERATED -->
 
 ---
 
